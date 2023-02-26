@@ -155,7 +155,6 @@ function getQuotes() {
 		.then((data) => {
 			author.textContent = data[randomQoute].author;
 			quote.textContent = data[randomQoute].text;
-			console.log(data[randomQoute]);
 		});
 }
 getQuotes();
@@ -170,3 +169,74 @@ function changeQuote() {
 }
 
 btnChangeQuote.addEventListener('click', changeQuote);
+
+/**
+================================>	6 Player
+*/
+import playList from './playList.js';
+
+const btnPlay = document.querySelector('.play');
+const btnPlayNext = document.querySelector('.play-next');
+const btnPlayPrev = document.querySelector('.play-prev');
+
+function toggleBtn() {
+	btnPlay.classList.toggle('pause');
+	if (!isPlay) {
+		btnPlay.classList.remove('pause');
+	}
+}
+
+let isPlay = false;
+let playNum = 0;
+
+const audio = new Audio();
+
+function playAudio() {
+	audio.src = playList[playNum].src;
+	audio.currentTime = 0;
+
+	if (!isPlay) {
+		audio.play();
+		isPlay = true;
+	} else {
+		audio.pause();
+		isPlay = false;
+	}
+}
+
+function playNext() {
+	btnPlay.classList.add('pause');
+	isPlay = false;
+	if (playNum < 3) {
+		playNum++;
+	} else if (playNum === 3) {
+		playNum = 0;
+	}
+
+	playAudio();
+}
+function playPrev() {
+	btnPlay.classList.add('pause');
+	isPlay = false;
+	if (playNum > 0) {
+		playNum--;
+	} else if (playNum === 0) {
+		playNum = 3;
+	}
+
+	playAudio();
+}
+
+btnPlay.addEventListener('click', playAudio);
+btnPlay.addEventListener('click', toggleBtn);
+btnPlayNext.addEventListener('click', playNext);
+btnPlayPrev.addEventListener('click', playPrev);
+
+const playListContainer = document.querySelector('.play-list');
+
+playList.forEach((el) => {
+	const li = document.createElement('li');
+	li.classList.add('play-item');
+	playListContainer.append(li);
+	li.textContent = el.title;
+});
