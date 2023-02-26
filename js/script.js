@@ -133,9 +133,40 @@ async function getWeather() {
 	weatherIcon.classList.add(`owf-${data.weather[0].id}`);
 	temperature.textContent = `${data.main.temp}°C`;
 	weatherDescription.textContent = data.weather[0].description;
-
-	console.log(data.weather[0].id, data.weather[0].description, data.main.temp);
 }
 getWeather();
 
 city.addEventListener('change', getWeather);
+
+/**
+================================>	5 Quotes
+*/
+const author = document.querySelector('.author');
+const quote = document.querySelector('.quote');
+const btnChangeQuote = document.querySelector('.change-quote');
+
+let randomQoute;
+randomQoute = Math.floor(Math.random() * 3);
+
+function getQuotes() {
+	const quotes = '/js/data.json';
+	fetch(quotes)
+		.then((res) => res.json())
+		.then((data) => {
+			author.textContent = data[randomQoute].author;
+			quote.textContent = data[randomQoute].text;
+			console.log(data[randomQoute]);
+		});
+}
+getQuotes();
+
+function changeQuote() {
+	let newRanomQuote = Math.floor(Math.random() * 3);
+	while (newRanomQuote === randomQoute) {
+		newRanomQuote = Math.floor(Math.random() * 3);
+	}
+	randomQoute = newRanomQuote;
+	getQuotes();
+}
+
+btnChangeQuote.addEventListener('click', changeQuote);
