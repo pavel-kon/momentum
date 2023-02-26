@@ -149,7 +149,7 @@ let randomQoute;
 randomQoute = Math.floor(Math.random() * 3);
 
 function getQuotes() {
-	const quotes = '/js/data.json';
+	const quotes = 'js/data.json';
 	fetch(quotes)
 		.then((res) => res.json())
 		.then((data) => {
